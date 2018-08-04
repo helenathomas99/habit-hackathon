@@ -281,6 +281,8 @@ class Login extends React.Component {
   }
 }
 
+
+
 class FoodArena extends React.Component {
   static navigationOptions = (props) => ({
     title: "FoodArena",
@@ -347,6 +349,7 @@ class FoodArena extends React.Component {
         )
     }
 }
+
 
 
 //position: 'aboslute', bottom: 120
