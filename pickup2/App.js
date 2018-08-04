@@ -363,7 +363,6 @@ export class Example extends React.Component {
      num: 0,
      selected: [],
    };
-   console.log("WHERE IS WALDO!")
  }
 
 
@@ -394,6 +393,8 @@ export class Example extends React.Component {
      }
    }).then((resJson) => {
      console.log("ResJson ", resJson)
+     var googleInfo = resJson.colors;
+     alert('Congrats! you earned' + googleIngo + "points")
    })
    .catch((err) => {
      // network error
