@@ -5,10 +5,8 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
-const User = require('./models').User;
+const User= require('./models').User;
 // const Game = require("./models").Game;
-
-const Game = require("./models").Game;
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -35,28 +33,29 @@ app.get('/ping', function (req, res) {
 
 app.post('/create/user', function(req, res) {
   console.log("reached post request", req.body)
-  if (req.body.username && req.body.password && req.body.age) {
-    let newUser = User({
-    let newUser = User({
+  if (req.body.username && req.body.password) {
+    let newUser = new User({
       username: req.body.username,
       password: req.body.password
     })
     newUser.save()
       .then((saved) => {
         console.log("User saved in database", saved)
+        res.send({'success': true})
       })
       .catch((err) => {
         console.log("failed to save user")
+        res.send('error creating user')
       })
   } else {
     console.log('something went wrong with adding user')
   }
-  res.json({"success": true})
+  // res.json({"success": true})
 });
 
 app.post('/login', function(req, res) {
   console.log("reached login post", req.body)
-  Player.findOne({username: req.body.username}, function(err, user) {
+  User.findOne({username: req.body.username}, function(err, user) {
     if (err) {
       console.log("Error finding user")
     } else if (user) {

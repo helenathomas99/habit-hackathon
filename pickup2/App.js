@@ -22,6 +22,7 @@ import { StackNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MapView } from 'expo';
 import Leaderboard from 'react-native-leaderboard';
+const axios = require('axios');
 
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
@@ -53,7 +54,6 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container1}>
-        <ImageBackground source={require('./assets/architecture.jpg')} style={styles.backgroundImage}>
           <View style={styles.content}>
             <Text style={styles.logo}>HABIT</Text>
             <View style={styles.emptySpace}></View>
@@ -66,7 +66,6 @@ class LoginScreen extends React.Component {
               </TouchableOpacity>
           </View>
       </View>
-    </ImageBackground>
     </View>
     )
   }
@@ -98,8 +97,11 @@ class RegisterScreen extends React.Component {
   }
 
   handleSubmit() {
-    // console.log("this state", this.state)
-      fetch('http://2aa7cc7e.ngrok.io/create/user', {
+    console.log("this state", this.state)
+    // axios.post('http://localhost:1337/create/user')
+   // fetch('/ping')}
+    //   .then(res => console.log(res))
+  fetch('http://a9fbf61c.ngrok.io/create/user', {
       method: 'POST',
       headers: {
       "Content-Type": "application/json"
@@ -134,12 +136,6 @@ class RegisterScreen extends React.Component {
     return (
       <DismissKeyboard>
       <View style={styles.container}>
-        <Image
-          style={{width: 150, height: 150, marginBottom: 20}}
-          // source={{uri: 'http://www.nationalfanthem.com/ShirtPieces/Crying_Michael_Jordan_Meme_Sad_Chicago_Bulls_Fan--ZM--BLK.jpg'}}/>
-            source={require('./mjtransparent.png')}
-         />
-
         <View style={{height: 50}}>
           <TextInput
             style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
@@ -195,17 +191,19 @@ class Login extends React.Component {
     }
   }
 
-
+redirect() {
+  this.props.navigation.navigate('FoodArena')
+}
   // redirect() {
   //   this.props.navigation.navigate('Map');
   // }
 
   redirectLogin() {
-    this.props.navigation.navigate('FoodArena'); // is this wehre we redirect to arena
+    this.props.navigation.navigate('Login'); // is this wehre we redirect to arena
   }
 
   handleSubmit() {
-    fetch('http://2aa7cc7e.ngrok.io/login', {
+    fetch('http://a9fbf61c.ngrok.io/login', {
     method: 'POST',
     headers: {
     "Content-Type": "application/json"
@@ -227,10 +225,9 @@ class Login extends React.Component {
         username: '',
         password: '',
       })
-      this.redirect()
+      this.props.navigation.navigate('FoodArena')
     } else {
       alert("Not valid username/password!")
-      this.redirectLogin()
     }
     })
     .catch((err) => {
@@ -243,11 +240,6 @@ class Login extends React.Component {
     return (
       <DismissKeyboard>
       <View style={styles.container}>
-        <Image
-          style={{width: 150, height: 150, marginBottom: 20, marginTop: 45}}
-          source={require('./mjtransparent.png')}
-        />
-
         <View style={{ borderRadius: 4, borderWidth: 0.5, borderColor: 'black', width: 300, marginBottom: 20}}>
           <TextInput
             style={{height: 40, width: 300, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
@@ -281,22 +273,12 @@ class Login extends React.Component {
   }
 }
 
-
-
 class FoodArena extends React.Component {
-  static navigationOptions = (props) => ({
-    title: "FoodArena",
-    headerStyle: {
-      backgroundColor: '#f4511e'
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    },
-    headerLeft: <Text>Your Jackpot: {this.state.jackpot}</Text>
-    })
-    state = {
-        jackpot: 100, // edit to make it actually update
+
+
+    constructor(props) {
+      super(props);
+    this.state = { // edit to make it actually update
         progress: 15,
         data: [
             { name: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
@@ -314,6 +296,20 @@ class FoodArena extends React.Component {
             { name: 'Lauren Leonard', score: 30, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr27ZFBaclzKcxg2FgJh6xi3Z5-9vP_U1DPcB149bYXxlPKqv-' },
         ]
     }
+  }
+
+  static navigationOptions = (props) => ({
+    title: "FoodArena",
+    headerStyle: {
+      backgroundColor: '#f4511e'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    },
+    headerLeft: <Text>Your Jackpot: 100</Text>,
+    headerRight: <Text>15 days of healthy habits!</Text>
+    })
 
     _alert = (title, body) => {
         Alert.alert(title, body,
@@ -344,12 +340,10 @@ class FoodArena extends React.Component {
                     </Text>
                 </View>
                 <Leaderboard {...props} />
-              <View>{this.state.progress} days of healthy habits!</View> // what about days without habits
             </View>
         )
     }
 }
-
 
 
 //position: 'aboslute', bottom: 120
@@ -375,7 +369,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#00264d'
+    backgroundColor: '#c0c0c0'
   },
   containerJoinGames: {
     flex: 1,
@@ -437,12 +431,12 @@ const styles = StyleSheet.create({
   textColor: {
     color: 'white'
   },
-  backgroundImage: {
-    flex: 1,
-    alignSelf: 'stretch',
-    width: null,
-    justifyContent: 'center'
-  },
+  // backgroundImage: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   width: null,
+  //   justifyContent: 'center'
+  // },
   content: {
     alignItems: 'center',
   },
@@ -483,7 +477,8 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   container1: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#db7093'
   },
   emptySpace: {
     margin: 30
