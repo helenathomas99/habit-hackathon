@@ -333,7 +333,6 @@ class FoodArena extends React.Component {
 
         return (
             <View>
-                {/* Ghetto Header */}
                 <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
                     <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                         Leaderboard
