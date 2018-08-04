@@ -5,8 +5,10 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
-const Player = require('./models').User;
+const User = require('./models').User;
 // const Game = require("./models").Game;
+
+const Game = require("./models").Game;
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -34,6 +36,7 @@ app.get('/ping', function (req, res) {
 app.post('/create/user', function(req, res) {
   console.log("reached post request", req.body)
   if (req.body.username && req.body.password && req.body.age) {
+    let newUser = User({
     let newUser = User({
       username: req.body.username,
       password: req.body.password
