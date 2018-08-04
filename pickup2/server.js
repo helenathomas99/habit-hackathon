@@ -5,8 +5,8 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
-const Player = require('./models').Player;
-const Game = require("./models").Game;
+const Player = require('./models').User;
+// const Game = require("./models").Game;
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -34,24 +34,19 @@ app.get('/ping', function (req, res) {
 app.post('/create/user', function(req, res) {
   console.log("reached post request", req.body)
   if (req.body.username && req.body.password && req.body.age) {
-    let newPlayer = Player({
+    let newUser = User({
       username: req.body.username,
-      password: req.body.password,
-      name: req.body.name,
-      age: req.body.age,
-      position: req.body.position,
-      skill: req.body.skill,
-      imgUrl: req.body.imgUrl
+      password: req.body.password
     })
-    newPlayer.save()
+    newUser.save()
       .then((saved) => {
-        console.log("Player saved in database", saved)
+        console.log("User saved in database", saved)
       })
       .catch((err) => {
-        console.log("failed to save player")
+        console.log("failed to save user")
       })
   } else {
-    console.log('something went wrong with adding player')
+    console.log('something went wrong with adding user')
   }
   res.json({"success": true})
 });
@@ -70,7 +65,7 @@ app.post('/login', function(req, res) {
 });
 
 app.post("/create", (req, res) => {
-  
+
 })
 
 // DO NOT REMOVE THIS LINE :)
