@@ -361,7 +361,7 @@ export default StackNavigator({
   LoginScreen: {
     screen: Login
   },
-  Leaderboard: {
+  FoodArena: {
     screen: FoodArena
   }
 }, {initialRouteName: 'Login'});
