@@ -337,11 +337,9 @@ class FoodArena extends React.Component {
         return (
             <View>
               <View>
-                <Text style={{marginRight: 25, fontWeight: "bold"}}>16 days of healthy habits! 14 more Until the Jackpot!</Text>
-              </View>
-              <View>
+                <Text style={{marginRight: 45, fontsize: 15, fontWeight: "bold"}}>16 days of healthy habits! 14 more Until the Jackpot!</Text>
                 <TouchableOpacity onPress={() => {this.props.navigation.navigate('Example')}}>
-                  <Text style={{marginRight: 25, fontWeight: "bold"}}>Upload Your Meal!</Text>
+                  <Text style={{marginRight: 45, textDecorationLine: 'underline', fontsize: 17, fontWeight: "bold"}}>Upload Your Meal!</Text>
               </TouchableOpacity>
             </View>
                 <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
@@ -394,7 +392,7 @@ export class Example extends React.Component {
    }).then((resJson) => {
      console.log("ResJson ", resJson)
      var googleInfo = resJson.colors;
-     alert('Congrats! you earned' + googleIngo + "points")
+     alert('Congrats! you earned ' + googleInfo.length + " points")
    })
    .catch((err) => {
      // network error
