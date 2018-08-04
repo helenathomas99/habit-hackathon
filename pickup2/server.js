@@ -7,10 +7,15 @@ const mongoose = require('mongoose');
 const assert = require('assert')
 const User= require('./models').User;
 // const Game = require("./models").Game;
+const vision = require('@google-cloud/vision');
 
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(bodyParser.json())
+
+
+// Creates a client
+const client = new vision.ImageAnnotatorClient();
 
 if (! fs.existsSync('./env.sh')) {
   throw new Error('env.sh file is missing');
@@ -68,6 +73,29 @@ app.post('/login', function(req, res) {
 
 app.post("/create", (req, res) => {
 
+})
+
+
+app.post("/sendImage", (req, res) => {
+  /**
+   * TODO(developer): Uncomment the following line before running the sample.
+   */
+   console.log("HERE\n")
+   console.log(req.body + "\n")
+  const fileName = 'assets/puppy-development-460x306.jpg';
+  console.log("fileName: " + fileName + "\n\n");
+
+  // Performs property detection on the local file
+  client
+    .imageProperties(fileName)
+    .then(results => {
+      const properties = results[0].imagePropertiesAnnotation;
+      const colors = properties.dominantColors.colors;
+      colors.forEach(color => console.log(color));
+    })
+    .catch(err => {
+      console.error('ERROR:', err);
+    });
 })
 
 // DO NOT REMOVE THIS LINE :)

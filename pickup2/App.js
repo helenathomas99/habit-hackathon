@@ -25,6 +25,9 @@ import { MapView } from 'expo';
 import Leaderboard from 'react-native-leaderboard';
 const axios = require('axios');
 
+var ImagePicker = require('react-native-image-picker');
+import CameraRollPicker from 'react-native-camera-roll-picker';
+
 export default class Example extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +36,29 @@ export default class Example extends React.Component {
       num: 0,
       selected: [],
     };
+  }
+
+  submitPhoto() {
+    console.log("Selected")
+    var image = this.state.selected[0]
+    fetch('http://a9fbf61c.ngrok.io/sendImage', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image
+      })
+    }).then((res)=> {
+      if(res.status === 200) {
+        // worked
+      } else {
+        // error
+      }
+    }).catch((err) => {
+      // network error
+    })
   }
 
   getSelectedImages(images, current) {
@@ -72,9 +98,11 @@ export default class Example extends React.Component {
           imagesPerRow={3}
           imageMargin={5}
           callback={this.getSelectedImages.bind(this)} />
-          <TouchableOpacity>
-            <Text style={{textAlign:'center', fontSize:40, height:50, color:'white'}}>Submit✈️</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => {this.submitPhoto()}}>
+              <Text style={{textAlign:'center', fontSize:40, height:50, color:'white'}}>Submit✈️</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     );
   }
@@ -423,7 +451,7 @@ class FoodArena extends React.Component {
 
         return (
             <View>
-                {/* Ghetto Header */}
+                {/* Ghetto Header *//*}
                 <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
                     <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                         Leaderboard
@@ -433,12 +461,12 @@ class FoodArena extends React.Component {
             </View>
         )
     }
-}
+}*/
 
 
 //position: 'aboslute', bottom: 120
 
-export default StackNavigator({
+/*export default StackNavigator({
   Login: {
     screen: LoginScreen,
   },
