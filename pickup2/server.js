@@ -5,8 +5,13 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
+<<<<<<< HEAD
 const Player = require('./models').User;
 // const Game = require("./models").Game;
+=======
+const Player = require('./models').Player;
+const Game = require("./models").Game;
+>>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -34,6 +39,7 @@ app.get('/ping', function (req, res) {
 app.post('/create/user', function(req, res) {
   console.log("reached post request", req.body)
   if (req.body.username && req.body.password && req.body.age) {
+<<<<<<< HEAD
     let newUser = User({
       username: req.body.username,
       password: req.body.password
@@ -47,6 +53,26 @@ app.post('/create/user', function(req, res) {
       })
   } else {
     console.log('something went wrong with adding user')
+=======
+    let newPlayer = Player({
+      username: req.body.username,
+      password: req.body.password,
+      name: req.body.name,
+      age: req.body.age,
+      position: req.body.position,
+      skill: req.body.skill,
+      imgUrl: req.body.imgUrl
+    })
+    newPlayer.save()
+      .then((saved) => {
+        console.log("Player saved in database", saved)
+      })
+      .catch((err) => {
+        console.log("failed to save player")
+      })
+  } else {
+    console.log('something went wrong with adding player')
+>>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
   }
   res.json({"success": true})
 });
@@ -65,7 +91,11 @@ app.post('/login', function(req, res) {
 });
 
 app.post("/create", (req, res) => {
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
 })
 
 // DO NOT REMOVE THIS LINE :)
