@@ -24,119 +24,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { MapView } from 'expo';
 import Leaderboard from 'react-native-leaderboard';
 const axios = require('axios');
+// adding a random comment
+// import { Button } from ‘react-native-elements’;
+ // import { Button } from "react-native-elements";
 
-var ImagePicker = require('react-native-image-picker');
-import CameraRollPicker from 'react-native-camera-roll-picker';
 
-export default class Example extends React.Component {
-  constructor(props) {
-    super(props);
+var ImagePicker = require("react-native-image-picker");
+import CameraRollPicker from "react-native-camera-roll-picker";
 
-    this.state = {
-      num: 0,
-      selected: [],
-    };
-  }
 
-  submitPhoto() {
-    console.log("Selected")
-    var image = this.state.selected[0]
-    fetch('http://a9fbf61c.ngrok.io/sendImage', {
-      method: 'POST',
-      credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        image
-      })
-    }).then((res)=> {
-      if(res.status === 200) {
-        // worked
-      } else {
-        // error
-      }
-    }).catch((err) => {
-      // network error
-    })
-  }
-
-  getSelectedImages(images, current) {
-    console.log("Images")
-    console.log(images)
-    console.log("Current")
-    console.log(current + "\n")
-    var num = images.length;
-
-    this.setState({
-      num: num,
-      selected: images,
-    });
-
-    console.log(current);
-    console.log(this.state.selected);
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <Text style={styles.text}>
-            <Text style={styles.bold}> {this.state.num} </Text> images has been selected
-          </Text>
-        </View>
-        <CameraRollPicker
-          scrollRenderAheadDistance={500}
-          initialListSize={1}
-          pageSize={3}
-          removeClippedSubviews={false}
-          groupTypes='SavedPhotos'
-          batchSize={5}
-          maximum={3}
-          selected={this.state.selected}
-          assetType='Photos'
-          imagesPerRow={3}
-          imageMargin={5}
-          callback={this.getSelectedImages.bind(this)} />
-          <View>
-            <TouchableOpacity onPress={() => {this.submitPhoto()}}>
-              <Text style={{textAlign:'center', fontSize:40, height:50, color:'white'}}>Submit✈️</Text>
-            </TouchableOpacity>
-          </View>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6AE2D',
-  },
-  content: {
-    marginTop: 15,
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
-  text: {
-    fontSize: 16,
-    alignItems: 'center',
-    color: '#fff',
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  info: {
-    fontSize: 12,
-  },
-});
-
-AppRegistry.registerComponent('Example', () => Example);
-
-/*const DismissKeyboard = ({children}) => (
+const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
@@ -162,12 +59,6 @@ class LoginScreen extends React.Component {
   register() {
     this.props.navigation.navigate('Register');
   }
-
-  takePicture() {
- this.camera.capture()
- .then((data) => console.log(data))
- .catch(err => console.error(err));
- }
 
   render() {
     return (
@@ -392,29 +283,24 @@ redirect() {
 }
 
 class FoodArena extends React.Component {
-
-
     constructor(props) {
       super(props);
     this.state = { // edit to make it actually update
         progress: 15,
+        score: '',
         data: [
-            { name: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
-            { name: 'Adam Savage', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
-            { name: 'Derek Black', score: 244, iconUrl: 'http://ttsbilisim.com/wp-content/uploads/2014/09/20120807.png' },
-            { name: 'Erika White', score: 0, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-eskimo-girl.png' },
-            { name: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
-            { name: 'Joe Roddy', score: 69, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
-            { name: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
-            { name: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
-            { name: 'John Davis', score: 80, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-afro-guy.png' },
-            { name: 'Tina Turner', score: 22, iconUrl: 'https://cdn.dribbble.com/users/223408/screenshots/2134810/me-dribbble-size-001-001_1x.png' },
-            { name: 'Harry Reynolds', score: null, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsSlzi6GEickw2Ft62IdJTfXWsDFrOIbwXhzddXXt4FvsbNGhp' },
-            { name: 'Betty Davis', score: 25, iconUrl: 'https://landofblogging.files.wordpress.com/2014/01/bitstripavatarprofilepic.jpeg?w=300&h=300' },
-            { name: 'Lauren Leonard', score: 30, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr27ZFBaclzKcxg2FgJh6xi3Z5-9vP_U1DPcB149bYXxlPKqv-' },
+            { name: 'Helena', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
+            { name: 'Diego', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
+            { name: 'Chris', score: 244, iconUrl: 'http://ttsbilisim.com/wp-content/uploads/2014/09/20120807.png' },
+            { name: 'Thais', score: 0, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-eskimo-girl.png' },
+            { name: 'Aria', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
+            { name: 'Persis', score: 69, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
+            { name: 'Humad', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
+            { name: 'Nich', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
+            { name: 'Karl', score: 80, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-afro-guy.png' },
         ]
-    }
-  }
+      }
+      }
 
   static navigationOptions = (props) => ({
     title: "FoodArena",
@@ -425,8 +311,7 @@ class FoodArena extends React.Component {
     headerTitleStyle: {
       fontWeight: 'bold'
     },
-    headerLeft: <Text>Your Jackpot: 100</Text>,
-    headerRight: <Text>15 days of healthy habits!</Text>
+    headerLeft: <Text>Your Jackpot: 100</Text>
     })
 
     _alert = (title, body) => {
@@ -451,10 +336,14 @@ class FoodArena extends React.Component {
 
         return (
             <View>
-<<<<<<< HEAD
-=======
-                {/* Ghetto Header *//*}
->>>>>>> 55bec7eef5ffb007e0a6b0b90de9612ab7b1e0a0
+              <View>
+                <Text style={{marginRight: 25, fontWeight: "bold"}}>16 days of healthy habits! 14 more Until the Jackpot!</Text>
+              </View>
+              <View>
+                <TouchableOpacity onPress={() => {this.props.navigation.navigate('Example')}}>
+                  <Text style={{marginRight: 25, fontWeight: "bold"}}>Upload Your Meal!</Text>
+              </TouchableOpacity>
+            </View>
                 <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
                     <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                         Leaderboard
@@ -464,12 +353,106 @@ class FoodArena extends React.Component {
             </View>
         )
     }
-}*/
+}
 
+export class Example extends React.Component {
+ constructor(props) {
+   super(props);
+
+   this.state = {
+     num: 0,
+     selected: [],
+   };
+   console.log("WHERE IS WALDO!")
+ }
+
+
+
+ submitPhoto() {
+   console.log("Selected")
+   console.log(this.state)
+   var image = this.state.selected[0]
+   fetch("http://a9fbf61c.ngrok.io/sendImage", {
+     method: "POST",
+     credentials: "same-origin",
+     headers: {
+       "Content-Type": "application/json"
+     },
+     body: JSON.stringify({
+       image
+     })
+   }).then((res)=> {
+     console.log("KEYS", Object.keys(res))
+     if(res.status === 200) {
+       // worked
+       console.log("SUCCESSFUL")
+       //console.log(res.json())
+       return res.json()
+     } else {
+       // error
+       console.log("Res error")
+     }
+   }).then((resJson) => {
+     console.log("ResJson ", resJson)
+   })
+   .catch((err) => {
+     // network error
+     console.log(err)
+   })
+ }
+
+ getSelectedImages(images, current) {
+   console.log("Images")
+   console.log(images)
+   console.log("Current")
+   console.log(current + "\n")
+   var num = images.length;
+
+   this.setState({
+     num: num,
+     selected: images,
+   });
+
+   console.log(current);
+   console.log(this.state.selected);
+ }
+
+ render() {
+   return (
+     <View style={styles.container}>
+       <View style={styles.content}>
+         <Text style={styles.text}>
+           <Text style={styles.bold}> {this.state.num} </Text> images has been selected
+         </Text>
+         <TouchableOpacity onPress={() => {this.submitPhoto()}}>
+           <Text style={{textAlign:"center", fontSize:40, height:50, color:"white"}}>Submit✈:</Text>
+         </TouchableOpacity>
+       </View>
+         <CameraRollPicker
+           scrollRenderAheadDistance={500}
+           initialListSize={1}
+           pageSize={3}
+           removeClippedSubviews={false}
+           groupTypes="SavedPhotos"
+           batchSize={5}
+           maximum={3}
+           selected={this.state.selected}
+           assetType="Photos"
+           imagesPerRow={3}
+           imageMargin={5}
+           callback={this.getSelectedImages.bind(this)} />
+     </View>
+   );
+ }
+}
+
+
+
+AppRegistry.registerComponent("Example", () => Example);
 
 //position: 'aboslute', bottom: 120
 
-/*export default StackNavigator({
+export default StackNavigator({
   Login: {
     screen: LoginScreen,
   },
@@ -481,26 +464,14 @@ class FoodArena extends React.Component {
   },
   FoodArena: {
     screen: FoodArena
+  },
+  Example: {
+    screen: Example
   }
 }, {initialRouteName: 'Login'});
 
 
 const styles = StyleSheet.create({
-  preview: {
-  flex: 1,
-  justifyContent: 'flex-end',
-  alignItems: 'center',
-  height: Dimensions.get('window').height,
-  width: Dimensions.get('window').width
-},
-capture: {
-  flex: 0,
-  backgroundColor: '#fff',
-  borderRadius: 5,
-  color: '#000',
-  padding: 10,
-  margin: 40
-},
   container: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -619,4 +590,4 @@ capture: {
   emptySpace: {
     margin: 30
   }
-}); */
+});

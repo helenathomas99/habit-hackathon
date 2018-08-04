@@ -7,15 +7,11 @@ const mongoose = require('mongoose');
 const assert = require('assert')
 const User= require('./models').User;
 // const Game = require("./models").Game;
-const vision = require('@google-cloud/vision');
+const vision = require('@google-cloud/vision')
 
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.use(bodyParser.json())
-
-
-// Creates a client
-const client = new vision.ImageAnnotatorClient();
 
 if (! fs.existsSync('./env.sh')) {
   throw new Error('env.sh file is missing');
@@ -41,7 +37,8 @@ app.post('/create/user', function(req, res) {
   if (req.body.username && req.body.password) {
     let newUser = new User({
       username: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      score: 0
     })
     newUser.save()
       .then((saved) => {
@@ -74,29 +71,37 @@ app.post('/login', function(req, res) {
 app.post("/create", (req, res) => {
 
 })
-
-
 app.post("/sendImage", (req, res) => {
-  /**
-   * TODO(developer): Uncomment the following line before running the sample.
-   */
-   console.log("HERE\n")
-   console.log(req.body + "\n")
-  const fileName = 'assets/puppy-development-460x306.jpg';
-  console.log("fileName: " + fileName + "\n\n");
 
-  // Performs property detection on the local file
-  client
-    .imageProperties(fileName)
-    .then(results => {
-      const properties = results[0].imagePropertiesAnnotation;
-      const colors = properties.dominantColors.colors;
-      colors.forEach(color => console.log(color));
-    })
-    .catch(err => {
-      console.error('ERROR:', err);
-    });
+  console.log("HERE\n")
+  console.log(req.body)
+ const fileName = "assets/puppy-development-460x306.jpg";
+ console.log("fileName: " + fileName + "\n\n");
+
+ // Performs property detection on the local file
+ const client = new vision.ImageAnnotatorClient();
+ var collector=[1]
+ var errOutside;
+ client
+   .imageProperties(fileName)
+   .then(results => {
+     const properties = results[0].imagePropertiesAnnotation;
+     const colors = properties.dominantColors.colors;
+     colors.forEach(color => {
+       collector.push(color);
+       console.log(color);
+     });
+     res.json({colors: collector, errmessage: errOutside })
+   })
+   .catch(err => {
+     errOutside=err;
+     console.error("ERROR:", err);
+     res.json({colors: collector, errmessage: errOutside })
+   });
+
 })
+
+
 
 // DO NOT REMOVE THIS LINE :)
 app.get('/', function (req, res) {
