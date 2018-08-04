@@ -15,7 +15,8 @@ import {
   Button,
   ImageBackground,
   DatePickerIOS,
-  Picker
+  Picker,
+  Dimensions
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 // import { Button } from 'react-native-elements';
@@ -24,7 +25,118 @@ import { MapView } from 'expo';
 import Leaderboard from 'react-native-leaderboard';
 const axios = require('axios');
 
-const DismissKeyboard = ({children}) => (
+var ImagePicker = require('react-native-image-picker');
+import CameraRollPicker from 'react-native-camera-roll-picker';
+
+export default class Example extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      num: 0,
+      selected: [],
+    };
+  }
+
+  submitPhoto() {
+    console.log("Selected")
+    var image = this.state.selected[0]
+    fetch('http://a9fbf61c.ngrok.io/sendImage', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image
+      })
+    }).then((res)=> {
+      if(res.status === 200) {
+        // worked
+      } else {
+        // error
+      }
+    }).catch((err) => {
+      // network error
+    })
+  }
+
+  getSelectedImages(images, current) {
+    console.log("Images")
+    console.log(images)
+    console.log("Current")
+    console.log(current + "\n")
+    var num = images.length;
+
+    this.setState({
+      num: num,
+      selected: images,
+    });
+
+    console.log(current);
+    console.log(this.state.selected);
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.text}>
+            <Text style={styles.bold}> {this.state.num} </Text> images has been selected
+          </Text>
+        </View>
+        <CameraRollPicker
+          scrollRenderAheadDistance={500}
+          initialListSize={1}
+          pageSize={3}
+          removeClippedSubviews={false}
+          groupTypes='SavedPhotos'
+          batchSize={5}
+          maximum={3}
+          selected={this.state.selected}
+          assetType='Photos'
+          imagesPerRow={3}
+          imageMargin={5}
+          callback={this.getSelectedImages.bind(this)} />
+          <View>
+            <TouchableOpacity onPress={() => {this.submitPhoto()}}>
+              <Text style={{textAlign:'center', fontSize:40, height:50, color:'white'}}>Submit✈️</Text>
+            </TouchableOpacity>
+          </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6AE2D',
+  },
+  content: {
+    marginTop: 15,
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  text: {
+    fontSize: 16,
+    alignItems: 'center',
+    color: '#fff',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  info: {
+    fontSize: 12,
+  },
+});
+
+AppRegistry.registerComponent('Example', () => Example);
+
+/*const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
@@ -50,6 +162,12 @@ class LoginScreen extends React.Component {
   register() {
     this.props.navigation.navigate('Register');
   }
+
+  takePicture() {
+ this.camera.capture()
+ .then((data) => console.log(data))
+ .catch(err => console.error(err));
+ }
 
   render() {
     return (
@@ -333,6 +451,10 @@ class FoodArena extends React.Component {
 
         return (
             <View>
+<<<<<<< HEAD
+=======
+                {/* Ghetto Header *//*}
+>>>>>>> 55bec7eef5ffb007e0a6b0b90de9612ab7b1e0a0
                 <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
                     <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
                         Leaderboard
@@ -342,12 +464,12 @@ class FoodArena extends React.Component {
             </View>
         )
     }
-}
+}*/
 
 
 //position: 'aboslute', bottom: 120
 
-export default StackNavigator({
+/*export default StackNavigator({
   Login: {
     screen: LoginScreen,
   },
@@ -364,6 +486,21 @@ export default StackNavigator({
 
 
 const styles = StyleSheet.create({
+  preview: {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  height: Dimensions.get('window').height,
+  width: Dimensions.get('window').width
+},
+capture: {
+  flex: 0,
+  backgroundColor: '#fff',
+  borderRadius: 5,
+  color: '#000',
+  padding: 10,
+  margin: 40
+},
   container: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -482,4 +619,4 @@ const styles = StyleSheet.create({
   emptySpace: {
     margin: 30
   }
-});
+}); */
