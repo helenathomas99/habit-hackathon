@@ -15,14 +15,100 @@ import {
   Button,
   ImageBackground,
   DatePickerIOS,
-  Picker
+  Picker,
+  Dimensions
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 // import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MapView } from 'expo';
+import CameraRollPicker from 'react-native-camera-roll-picker';
+//import Camera from 'react-native-camera';
 
-const DismissKeyboard = ({children}) => (
+export default class Example extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      num: 0,
+      selected: [],
+    };
+  }
+
+  getSelectedImages(images, current) {
+    console.log("Images")
+    console.log(images)
+    console.log("Current")
+    console.log(current + "\n")
+    var num = images.length;
+
+    this.setState({
+      num: num,
+      selected: images,
+    });
+
+    console.log(current);
+    console.log(this.state.selected);
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <Text style={styles.text}>
+            <Text style={styles.bold}> {this.state.num} </Text> images has been selected
+          </Text>
+        </View>
+        <CameraRollPicker
+          scrollRenderAheadDistance={500}
+          initialListSize={1}
+          pageSize={3}
+          removeClippedSubviews={false}
+          groupTypes='SavedPhotos'
+          batchSize={5}
+          maximum={3}
+          selected={this.state.selected}
+          assetType='Photos'
+          imagesPerRow={3}
+          imageMargin={5}
+          callback={this.getSelectedImages.bind(this)} />
+          <TouchableOpacity>
+            <Text style={{textAlign:'center', fontSize:40, height:50, color:'white'}}>Submit✈️</Text>
+          </TouchableOpacity>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6AE2D',
+  },
+  content: {
+    marginTop: 15,
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+  },
+  text: {
+    fontSize: 16,
+    alignItems: 'center',
+    color: '#fff',
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  info: {
+    fontSize: 12,
+  },
+});
+
+AppRegistry.registerComponent('Example', () => Example);
+
+/*const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress = {() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
@@ -48,6 +134,12 @@ class LoginScreen extends React.Component {
   register() {
     this.props.navigation.navigate('Register');
   }
+
+  takePicture() {
+ this.camera.capture()
+ .then((data) => console.log(data))
+ .catch(err => console.error(err));
+ }
 
   render() {
     return (
@@ -297,6 +389,21 @@ export default StackNavigator({
 
 
 const styles = StyleSheet.create({
+  preview: {
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  height: Dimensions.get('window').height,
+  width: Dimensions.get('window').width
+},
+capture: {
+  flex: 0,
+  backgroundColor: '#fff',
+  borderRadius: 5,
+  color: '#000',
+  padding: 10,
+  margin: 40
+},
   container: {
     flex: 1,
     justifyContent: 'flex-start',
@@ -414,4 +521,4 @@ const styles = StyleSheet.create({
   emptySpace: {
     margin: 30
   }
-});
+}); */

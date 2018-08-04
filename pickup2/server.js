@@ -5,13 +5,34 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
-<<<<<<< HEAD
-const Player = require('./models').User;
-// const Game = require("./models").Game;
-=======
 const Player = require('./models').Player;
 const Game = require("./models").Game;
->>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
+
+const vision = require('@google-cloud/vision');
+
+var ImagePicker = require('react-native-image-picker');
+
+// Creates a client
+const client = new vision.ImageAnnotatorClient();
+
+/**
+ * TODO(developer): Uncomment the following line before running the sample.
+ */
+ console.log("HERE\n")
+const fileName = 'assets/puppy-development-460x306.jpg';
+console.log("fileName: " + fileName + "\n\n");
+
+// Performs property detection on the local file
+client
+  .imageProperties(fileName)
+  .then(results => {
+    const properties = results[0].imagePropertiesAnnotation;
+    const colors = properties.dominantColors.colors;
+    colors.forEach(color => console.log(color));
+  })
+  .catch(err => {
+    console.error('ERROR:', err);
+  });
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -38,9 +59,8 @@ app.get('/ping', function (req, res) {
 
 app.post('/create/user', function(req, res) {
   console.log("reached post request", req.body)
-  if (req.body.username && req.body.password && req.body.age) {
-<<<<<<< HEAD
-    let newUser = User({
+  if (req.body.username && req.body.password) {
+    let newUser = new User({
       username: req.body.username,
       password: req.body.password
     })
@@ -51,35 +71,13 @@ app.post('/create/user', function(req, res) {
       .catch((err) => {
         console.log("failed to save user")
       })
-  } else {
-    console.log('something went wrong with adding user')
-=======
-    let newPlayer = Player({
-      username: req.body.username,
-      password: req.body.password,
-      name: req.body.name,
-      age: req.body.age,
-      position: req.body.position,
-      skill: req.body.skill,
-      imgUrl: req.body.imgUrl
-    })
-    newPlayer.save()
-      .then((saved) => {
-        console.log("Player saved in database", saved)
-      })
-      .catch((err) => {
-        console.log("failed to save player")
-      })
-  } else {
-    console.log('something went wrong with adding player')
->>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
   }
   res.json({"success": true})
 });
 
 app.post('/login', function(req, res) {
   console.log("reached login post", req.body)
-  Player.findOne({username: req.body.username}, function(err, user) {
+  User.findOne({username: req.body.username}, function(err, user) {
     if (err) {
       console.log("Error finding user")
     } else if (user) {
@@ -91,11 +89,6 @@ app.post('/login', function(req, res) {
 });
 
 app.post("/create", (req, res) => {
-<<<<<<< HEAD
-
-=======
-  
->>>>>>> 89244eb82446e9851372bc0a23fa86a22137fbb5
 })
 
 // DO NOT REMOVE THIS LINE :)
