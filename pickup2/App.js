@@ -22,8 +22,8 @@ import { StackNavigator } from 'react-navigation';
 // import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { MapView } from 'expo';
-import CameraRollPicker from 'react-native-camera-roll-picker';
-//import Camera from 'react-native-camera';
+import Leaderboard from 'react-native-leaderboard';
+const axios = require('axios');
 
 export default class Example extends React.Component {
   constructor(props) {
@@ -144,7 +144,6 @@ class LoginScreen extends React.Component {
   render() {
     return (
       <View style={styles.container1}>
-        <ImageBackground source={require('./assets/architecture.jpg')} style={styles.backgroundImage}>
           <View style={styles.content}>
             <Text style={styles.logo}>HABIT</Text>
             <View style={styles.emptySpace}></View>
@@ -157,7 +156,6 @@ class LoginScreen extends React.Component {
               </TouchableOpacity>
           </View>
       </View>
-    </ImageBackground>
     </View>
     )
   }
@@ -189,8 +187,11 @@ class RegisterScreen extends React.Component {
   }
 
   handleSubmit() {
-    // console.log("this state", this.state)
-      fetch('http://2aa7cc7e.ngrok.io/create/user', {
+    console.log("this state", this.state)
+    // axios.post('http://localhost:1337/create/user')
+   // fetch('/ping')}
+    //   .then(res => console.log(res))
+  fetch('http://a9fbf61c.ngrok.io/create/user', {
       method: 'POST',
       headers: {
       "Content-Type": "application/json"
@@ -225,12 +226,6 @@ class RegisterScreen extends React.Component {
     return (
       <DismissKeyboard>
       <View style={styles.container}>
-        <Image
-          style={{width: 150, height: 150, marginBottom: 20}}
-          // source={{uri: 'http://www.nationalfanthem.com/ShirtPieces/Crying_Michael_Jordan_Meme_Sad_Chicago_Bulls_Fan--ZM--BLK.jpg'}}/>
-            source={require('./mjtransparent.png')}
-         />
-
         <View style={{height: 50}}>
           <TextInput
             style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
@@ -266,7 +261,7 @@ class RegisterScreen extends React.Component {
 
 class Login extends React.Component {
   static navigationOptions = (props) => ({
-    title: "REGISTER",
+    title: "Register",
     headerStyle: {
       backgroundColor: '#f4511e'
     },
@@ -286,17 +281,19 @@ class Login extends React.Component {
     }
   }
 
-
+redirect() {
+  this.props.navigation.navigate('FoodArena')
+}
   // redirect() {
   //   this.props.navigation.navigate('Map');
   // }
 
   redirectLogin() {
-    this.props.navigation.navigate('LoginScreen');
+    this.props.navigation.navigate('Login'); // is this wehre we redirect to arena
   }
 
   handleSubmit() {
-    fetch('http://2aa7cc7e.ngrok.io/login', {
+    fetch('http://a9fbf61c.ngrok.io/login', {
     method: 'POST',
     headers: {
     "Content-Type": "application/json"
@@ -318,10 +315,9 @@ class Login extends React.Component {
         username: '',
         password: '',
       })
-      this.redirect()
+      this.props.navigation.navigate('FoodArena')
     } else {
       alert("Not valid username/password!")
-      this.redirectLogin()
     }
     })
     .catch((err) => {
@@ -334,11 +330,6 @@ class Login extends React.Component {
     return (
       <DismissKeyboard>
       <View style={styles.container}>
-        <Image
-          style={{width: 150, height: 150, marginBottom: 20, marginTop: 45}}
-          source={require('./mjtransparent.png')}
-        />
-
         <View style={{ borderRadius: 4, borderWidth: 0.5, borderColor: 'black', width: 300, marginBottom: 20}}>
           <TextInput
             style={{height: 40, width: 300, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
@@ -372,6 +363,78 @@ class Login extends React.Component {
   }
 }
 
+class FoodArena extends React.Component {
+
+
+    constructor(props) {
+      super(props);
+    this.state = { // edit to make it actually update
+        progress: 15,
+        data: [
+            { name: 'We Tu Lo', score: null, iconUrl: 'https://st2.depositphotos.com/1006318/5909/v/950/depositphotos_59094043-stock-illustration-profile-icon-male-avatar.jpg' },
+            { name: 'Adam Savage', score: 12, iconUrl: 'https://www.shareicon.net/data/128x128/2016/09/15/829473_man_512x512.png' },
+            { name: 'Derek Black', score: 244, iconUrl: 'http://ttsbilisim.com/wp-content/uploads/2014/09/20120807.png' },
+            { name: 'Erika White', score: 0, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-eskimo-girl.png' },
+            { name: 'Jimmy John', score: 20, iconUrl: 'https://static.witei.com/static/img/profile_pics/avatar4.png' },
+            { name: 'Joe Roddy', score: 69, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-braindead-zombie.png' },
+            { name: 'Ericka Johannesburg', score: 101, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShPis8NLdplTV1AJx40z-KS8zdgaSPaCfNINLtQ-ENdPvrtMWz' },
+            { name: 'Tim Thomas', score: 41, iconUrl: 'http://conserveindia.org/wp-content/uploads/2017/07/teamMember4.png' },
+            { name: 'John Davis', score: 80, iconUrl: 'http://www.lovemarks.com/wp-content/uploads/profile-avatars/default-avatar-afro-guy.png' },
+            { name: 'Tina Turner', score: 22, iconUrl: 'https://cdn.dribbble.com/users/223408/screenshots/2134810/me-dribbble-size-001-001_1x.png' },
+            { name: 'Harry Reynolds', score: null, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsSlzi6GEickw2Ft62IdJTfXWsDFrOIbwXhzddXXt4FvsbNGhp' },
+            { name: 'Betty Davis', score: 25, iconUrl: 'https://landofblogging.files.wordpress.com/2014/01/bitstripavatarprofilepic.jpeg?w=300&h=300' },
+            { name: 'Lauren Leonard', score: 30, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr27ZFBaclzKcxg2FgJh6xi3Z5-9vP_U1DPcB149bYXxlPKqv-' },
+        ]
+    }
+  }
+
+  static navigationOptions = (props) => ({
+    title: "FoodArena",
+    headerStyle: {
+      backgroundColor: '#f4511e'
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold'
+    },
+    headerLeft: <Text>Your Jackpot: 100</Text>,
+    headerRight: <Text>15 days of healthy habits!</Text>
+    })
+
+    _alert = (title, body) => {
+        Alert.alert(title, body,
+            [{ text: 'OK', onPress: () => { } },],
+            { cancelable: false }
+        )
+    }
+
+    render() {
+        const props = {
+            labelBy: 'name',
+            sortBy: 'score',
+            data: this.state.data,
+            icon: 'iconUrl',
+            onRowPress: (item, index) => {
+                this._alert(item.name + " clicked",
+                    item.score + " points, wow!")
+            },
+            evenRowColor: '#edfcf9',
+        }
+
+        return (
+            <View>
+                {/* Ghetto Header */}
+                <View style={{ paddingTop: 50, backgroundColor: 'black', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 30, color: 'white', paddingBottom: 10 }}>
+                        Leaderboard
+                    </Text>
+                </View>
+                <Leaderboard {...props} />
+            </View>
+        )
+    }
+}
+
 
 //position: 'aboslute', bottom: 120
 
@@ -384,6 +447,9 @@ export default StackNavigator({
   },
   LoginScreen: {
     screen: Login
+  },
+  FoodArena: {
+    screen: FoodArena
   }
 }, {initialRouteName: 'Login'});
 
@@ -408,7 +474,7 @@ capture: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#00264d'
+    backgroundColor: '#c0c0c0'
   },
   containerJoinGames: {
     flex: 1,
@@ -470,12 +536,12 @@ capture: {
   textColor: {
     color: 'white'
   },
-  backgroundImage: {
-    flex: 1,
-    alignSelf: 'stretch',
-    width: null,
-    justifyContent: 'center'
-  },
+  // backgroundImage: {
+  //   flex: 1,
+  //   alignSelf: 'stretch',
+  //   width: null,
+  //   justifyContent: 'center'
+  // },
   content: {
     alignItems: 'center',
   },
@@ -516,7 +582,8 @@ capture: {
     textAlign: 'center'
   },
   container1: {
-    flex: 1
+    flex: 1,
+    backgroundColor: '#db7093'
   },
   emptySpace: {
     margin: 30

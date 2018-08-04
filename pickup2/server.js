@@ -5,34 +5,8 @@ const app = express();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const assert = require('assert')
-const Player = require('./models').Player;
-const Game = require("./models").Game;
-
-const vision = require('@google-cloud/vision');
-
-var ImagePicker = require('react-native-image-picker');
-
-// Creates a client
-const client = new vision.ImageAnnotatorClient();
-
-/**
- * TODO(developer): Uncomment the following line before running the sample.
- */
- console.log("HERE\n")
-const fileName = 'assets/puppy-development-460x306.jpg';
-console.log("fileName: " + fileName + "\n\n");
-
-// Performs property detection on the local file
-client
-  .imageProperties(fileName)
-  .then(results => {
-    const properties = results[0].imagePropertiesAnnotation;
-    const colors = properties.dominantColors.colors;
-    colors.forEach(color => console.log(color));
-  })
-  .catch(err => {
-    console.error('ERROR:', err);
-  });
+const User= require('./models').User;
+// const Game = require("./models").Game;
 
 app.use(express.static(path.join(__dirname, 'build')));
 
@@ -67,12 +41,16 @@ app.post('/create/user', function(req, res) {
     newUser.save()
       .then((saved) => {
         console.log("User saved in database", saved)
+        res.send({'success': true})
       })
       .catch((err) => {
         console.log("failed to save user")
+        res.send('error creating user')
       })
+  } else {
+    console.log('something went wrong with adding user')
   }
-  res.json({"success": true})
+  // res.json({"success": true})
 });
 
 app.post('/login', function(req, res) {
@@ -89,6 +67,7 @@ app.post('/login', function(req, res) {
 });
 
 app.post("/create", (req, res) => {
+
 })
 
 // DO NOT REMOVE THIS LINE :)
