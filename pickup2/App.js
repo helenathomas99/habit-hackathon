@@ -54,7 +54,7 @@ class LoginScreen extends React.Component {
       <View style={styles.container1}>
         <ImageBackground source={require('./assets/architecture.jpg')} style={styles.backgroundImage}>
           <View style={styles.content}>
-            <Text style={styles.logo}>PICKUP!--Wat is this</Text>
+            <Text style={styles.logo}>HABIT</Text>
             <View style={styles.emptySpace}></View>
             <View style={styles.inputContainer}>
               <TouchableOpacity onPress={() => {this.press()} } style={styles.buttonContainer}>
@@ -156,51 +156,6 @@ class RegisterScreen extends React.Component {
             secureTextEntry={true}
             onChangeText={(text) => this.setState({password: text})}
             value = {this.state.password}
-          />
-        </View>
-        <View style={{height: 50}}>
-          <TextInput
-            style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
-            placeholder="Enter your name"
-            placeholderTextColor="white"
-            onChangeText={(text) => this.setState({name: text})}
-            value = {this.state.name}
-          />
-        </View>
-        <View style={{height: 50}}>
-          <TextInput
-            style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
-            placeholder="Enter your position"
-            placeholderTextColor="white"
-            onChangeText={(text) => this.setState({position: text})}
-            value = {this.state.position}
-          />
-        </View>
-        <View style={{height: 50}}>
-          <TextInput
-            style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
-            placeholder="Enter your age"
-            placeholderTextColor="white"
-            onChangeText={(text) => this.setState({age: text})}
-            value = {this.state.age}
-          />
-        </View>
-        <View style={{height: 50}}>
-          <TextInput
-            style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
-            placeholder="Enter your skill level"
-            placeholderTextColor="white"
-            onChangeText={(text) => this.setState({skill: text})}
-            value = {this.state.skill}
-          />
-        </View>
-        <View style={{height: 50}}>
-          <TextInput
-            style = {{width: 300, height: 40, borderColor: 'white', borderWidth: 2, color: 'white', padding: 10}}
-            placeholder="Optional Image Url"
-            placeholderTextColor="white"
-            onChangeText={(text) => this.setState({imgUrl: text})}
-            value = {this.state.imgUrl}
           />
         </View>
 
